@@ -4,11 +4,8 @@ A Spring Boot project that securely stores and manages contacts online. Access y
 
 ---
 
-## Live Demo
-
-Check out the live application here: [Smart Contact Manager](https://yourwebsite.com)  
-*(Replace with your actual deployed URL)*
-
+## Contact Developer 
+For any Query Visit my linkedin ----> (https://www.linkedin.com/in/thisisby/)
 ---
 
 ## Technologies Used
