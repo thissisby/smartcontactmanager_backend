@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:fragment="layout(content)">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+	integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+	crossorigin="anonymous">
+
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+
+<style>
+	/* Light theme default */
+	body {
+		background-color: #ffffff;
+		color: #000000;
+		transition: background 0.3s, color 0.3s;
+	}
+
+	/* Dark mode */
+	body.dark-mode {
+		background-color: #121212;
+		color: #ffffff;
+	}
+
+	.navbar.dark-mode {
+		background-color: #1f1f1f !important;
+	}
+
+	footer.dark-mode {
+		background-color: #1f1f1f !important;
+		color: #ffffff;
+	}
+</style>
+
+<title th:text="${title}">Base html</title>
+</head>
+<body>
+
+<!-- navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+	<a class="navbar-brand" th:href="@{/}">Smart Contact Manager</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse"
+		data-target="#navbarSupportedContent"
+		aria-controls="navbarSupportedContent" aria-expanded="false"
+		aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav ml-auto text-uppercase">
+			<li class="nav-item active">
+				<a th:href="@{/}" class="nav-link">Home <span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/about}">About</a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/signin}">Login</a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/signup/}">Signup</a></li>
+		</ul>
+		<!-- Theme toggle button -->
+		<button id="theme-toggle" class="btn btn-light ml-3">🌙 Dark</button>
+	</div>
+</nav>
+<!-- END navbar -->
+
+<div th:replace="${content}"></div>
+
+<!-- Footer -->
+<footer class="bg-primary text-white text-center py-3 mt-5">
+    <div>
+        © 2025 Smart Contact Manager | All rights reserved | Made by 
+        <strong>
+            <a href="https://www.linkedin.com/in/thisisby/" target="_blank" class="text-white" style="text-decoration: underline;">
+                ThisisBy
+            </a>
+        </strong>
+    </div>
+</footer>
+
+
+<!-- Optional JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+	integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+	crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+	integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+	crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+	integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+	crossorigin="anonymous"></script>
+
+<script th:src="@{/js/script.js}"></script>
+
+<script>
+  const toggleBtn = document.getElementById("theme-toggle");
+  const body = document.body;
+  const navbar = document.querySelector(".navbar");
+  const footer = document.querySelector("footer");
+
+  toggleBtn.addEventListener("click", () => {
+    body.classList.toggle("dark-mode");
+    navbar.classList.toggle("dark-mode");
+    footer.classList.toggle("dark-mode");
+
+    if (body.classList.contains("dark-mode")) {
+      toggleBtn.textContent = "☀️ Light";
+      toggleBtn.classList.remove("btn-light");
+      toggleBtn.classList.add("btn-dark");
+    } else {
+      toggleBtn.textContent = "🌙 Dark";
+      toggleBtn.classList.remove("btn-dark");
+      toggleBtn.classList.add("btn-light");
+    }
+  });
+</script>
+
+</body>
+</html>

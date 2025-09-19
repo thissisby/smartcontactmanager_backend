@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Contact Manager - Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --text-muted: rgba(255, 255, 255, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Navbar styling to match the glassmorphic theme */
+        .navbar {
+            background: rgba(13, 110, 253, 0.15) !important;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1000;
+        }
+
+        .navbar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-gradient);
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--text-primary) !important;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            color: var(--text-primary) !important;
+            transform: translateY(-1px);
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0.5rem;
+            padding: 0.75rem 1rem !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-item.active .nav-link {
+            color: var(--text-primary) !important;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .navbar-toggler {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* Floating elements */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            width: 120px;
+            height: 120px;
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 80px;
+            height: 80px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .shape-3 {
+            width: 100px;
+            height: 100px;
+            bottom: 25%;
+            left: 70%;
+            animation-delay: 4s;
+        }
+
+        .shape-4 {
+            width: 60px;
+            height: 60px;
+            top: 40%;
+            left: 5%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            25% { transform: translateY(-20px) translateX(15px); }
+            50% { transform: translateY(-10px) translateX(-10px); }
+            75% { transform: translateY(-25px) translateX(8px); }
+        }
+
+        /* Main container */
+        .register-container {
+            min-height: calc(100vh - 76px);
+            position: relative;
+            z-index: 10;
+            padding: 2rem 0;
+        }
+
+        /* Glass card effect */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 
+                0 25px 45px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            animation: cardFloat 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes cardFloat {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-5px); }
+        }
+
+        .glass-card:hover {
+            box-shadow: 
+                0 35px 55px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        /* Header styling */
+        .register-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .register-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .register-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        .register-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+
+        .register-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4); }
+            100% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(102, 126, 234, 0); }
+        }
+
+        /* Form styling */
+        .form-floating {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control, .form-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .form-floating > label {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Textarea specific styling */
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Checkbox styling */
+        .form-check {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-check-input {
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid var(--glass-border);
+            background-color: transparent;
+            border-radius: 4px;
+            margin-top: 0.25rem;
+        }
+
+        .form-check-input:checked {
+            background: var(--primary-gradient);
+            border-color: #667eea;
+        }
+
+        .form-check-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+
+        /* Button styling */
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 0.875rem 2.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin: 0 0.5rem;
+        }
+
+        .btn-warning {
+            background: var(--warning-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 0.875rem 2.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin: 0 0.5rem;
+            color: white;
+        }
+
+        .btn-primary::before,
+        .btn-warning::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before,
+        .btn-warning:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            background: var(--primary-gradient);
+            border-color: transparent;
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(250, 112, 154, 0.4);
+            background: var(--warning-gradient);
+            border-color: transparent;
+            color: white;
+        }
+
+        .btn-primary:focus,
+        .btn-warning:focus {
+            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.3);
+        }
+
+        /* Alert messages */
+        .alert {
+            border: none;
+            border-radius: 12px;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.15);
+            color: #ff6b6b;
+            border: 1px solid rgba(220, 53, 69, 0.3);
+        }
+
+        .alert-success {
+            background: rgba(25, 135, 84, 0.15);
+            color: #4cd964;
+            border: 1px solid rgba(25, 135, 84, 0.3);
+        }
+
+        .alert-warning {
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        /* Icon styling */
+        .input-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Invalid feedback */
+        .is-invalid {
+            border-color: #dc3545 !important;
+            background: rgba(220, 53, 69, 0.1) !important;
+        }
+
+        .invalid-feedback {
+            display: block;
+            color: #ff6b6b;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* Login link */
+        .login-section {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 1.5rem;
+        }
+
+        .login-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .login-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .login-link:hover::after {
+            width: 100%;
+        }
+
+        .login-link:hover {
+            color: var(--text-primary);
+            -webkit-text-fill-color: var(--text-primary);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .register-title {
+                font-size: 2rem;
+            }
+            
+            .glass-card {
+                margin: 1rem;
+                border-radius: 20px;
+            }
+
+            .btn-primary,
+            .btn-warning {
+                width: 100%;
+                margin: 0.25rem 0;
+            }
+        }
+
+        /* Button group responsive */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        @media (max-width: 576px) {
+            .button-group {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="https://github.com/swapniltake1/smartcontactmanager">
+                Smart Contact Manager
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                data-bs-target="#navbarSupportedContent" 
+                aria-controls="navbarSupportedContent" aria-expanded="false" 
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto text-uppercase">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">
+                            About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signin">
+                            Login
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/signup/">
+                            Signup
+                            <span class="visually-hidden">(current)</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Floating shapes -->
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+    </div>
+
+    <!-- Main container -->
+    <div class="container-fluid register-container d-flex align-items-center justify-content-center">
+        <div class="row w-100 justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="glass-card p-4 p-md-5">
+                    <!-- Header -->
+                    <div class="register-header">
+                        <div class="register-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h1 class="register-title">Register Here!</h1>
+                        <p class="register-subtitle">Create your account to get started</p>
+                    </div>
+
+                    <!-- Session Message Alert -->
+                    <div class="alert alert-success d-none" id="session-alert" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <span id="session-message"></span>
+                    </div>
+
+                    <!-- Registration Form -->
+                    <form novalidate action="/do_register" method="post">
+                        <!-- Name Field -->
+                        <div class="form-floating mb-3 position-relative">
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="name_field" 
+                                name="name" 
+                                placeholder="Your Name"
+                                required
+                                autocomplete="name"
+                            >
+                            <label for="name_field">Your Name</label>
+                            <i class="fas fa-user input-icon"></i>
+                            <div class="invalid-feedback d-none" id="name-error">
+                                Please provide a valid name.
+                            </div>
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="form-floating mb-3 position-relative">
+                            <input 
+                                type="email" 
+                                class="form-control" 
+                                id="email_field" 
+                                name="email" 
+                                placeholder="Your Email"
+                                required
+                                autocomplete="email"
+                            >
+                            <label for="email_field">Your Email</label>
+                            <i class="fas fa-envelope input-icon"></i>
+                            <div class="invalid-feedback d-none" id="email-error">
+                                Please provide a valid email address.
+                            </div>
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="form-floating mb-3 position-relative">
+                            <input 
+                                type="password" 
+                                class="form-control" 
+                                id="password_field" 
+                                name="password" 
+                                placeholder="Your Password"
+                                required
+                                autocomplete="new-password"
+                            >
+                            <label for="password_field">Your Password</label>
+                            <i class="fas fa-lock input-icon"></i>
+                            <div class="invalid-feedback d-none" id="password-error">
+                                Password must be at least 6 characters long.
+                            </div>
+                        </div>
+
+                        <!-- About Field -->
+                        <div class="form-floating mb-3 position-relative">
+                            <textarea 
+                                class="form-control" 
+                                id="about_field" 
+                                name="about" 
+                                placeholder="Tell us about yourself"
+                                rows="6"
+                                style="min-height: 120px;"
+                            ></textarea>
+                            <label for="about_field">Tell us about yourself</label>
+                            <i class="fas fa-info-circle input-icon"></i>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="form-check text-center">
+                            <input 
+                                class="form-check-input" 
+                                type="checkbox" 
+                                id="agreement" 
+                                name="agreement"
+                                required
+                            >
+                            <label class="form-check-label" for="agreement">
+                                <i class="fas fa-shield-alt me-2"></i>
+                                I accept the <a href="#" class="text-decoration-none" style="color: var(--text-primary);">Terms and Conditions</a>
+                            </label>
+                            <div class="invalid-feedback d-none" id="agreement-error">
+                                You must accept the terms and conditions.
+                            </div>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="button-group mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-user-plus me-2"></i>
+                                Create Account
+                            </button>
+                            <button type="reset" class="btn btn-warning">
+                                <i class="fas fa-redo me-2"></i>
+                                Reset Form
+                            </button>
+                        </div>
+
+                        <!-- Login Link -->
+                        <div class="login-section">
+                            <p class="login-text">Already have an account?</p>
+                            <a href="/signin" class="login-link fw-bold">
+                                <i class="fas fa-sign-in-alt me-1"></i>
+                                Sign In Here
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<footer class="bg-primary text-white text-center py-3 mt-5">
+      <div>
+        © 2025 Smart Contact Manager | All rights reserved | Made by 
+        <strong>
+            <a href="https://www.linkedin.com/in/thisisby/" target="_blank" class="text-white" style="text-decoration: underline;">
+                ThisisBy
+            </a>
+        </strong>
+    </div>
+</footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Form validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const inputs = document.querySelectorAll('.form-control');
+            const agreement = document.getElementById('agreement');
+
+            // Real-time validation
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    validateField(this);
+                });
+
+                input.addEventListener('input', function() {
+                    if (this.classList.contains('is-invalid')) {
+                        validateField(this);
+                    }
+                });
+
+                // Enhanced focus effects
+                input.addEventListener('focus', function() {
+                    this.closest('.form-floating').style.transform = 'translateY(-2px)';
+                    this.closest('.form-floating').style.transition = 'transform 0.3s ease';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.closest('.form-floating').style.transform = 'translateY(0px)';
+                });
+            });
+
+            // Agreement validation
+            agreement.addEventListener('change', function() {
+                const errorDiv = document.getElementById('agreement-error');
+                if (this.checked) {
+                    this.classList.remove('is-invalid');
+                    errorDiv.classList.add('d-none');
+                } else {
+                    this.classList.add('is-invalid');
+                    errorDiv.classList.remove('d-none');
+                }
+            });
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                let isValid = true;
+
+                // Validate all fields
+                inputs.forEach(input => {
+                    if (!validateField(input)) {
+                        isValid = false;
+                    }
+                });
+
+                // Validate agreement
+                if (!agreement.checked) {
+                    agreement.classList.add('is-invalid');
+                    document.getElementById('agreement-error').classList.remove('d-none');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                    
+                    // Shake animation for invalid form
+                    const card = document.querySelector('.glass-card');
+                    card.style.animation = 'shake 0.5s ease-in-out';
+                    setTimeout(() => {
+                        card.style.animation = 'cardFloat 4s ease-in-out infinite alternate';
+                    }, 500);
+                }
+            });
+
+            // Validation function
+            function validateField(field) {
+                const errorDiv = document.getElementById(field.name + '-error') || 
+                                document.getElementById(field.id.replace('_field', '-error'));
+                let isValid = true;
+
+                if (field.hasAttribute('required') && !field.value.trim()) {
+                    isValid = false;
+                } else if (field.type === 'email' && field.value && !isValidEmail(field.value)) {
+                    isValid = false;
+                } else if (field.type === 'password' && field.value && field.value.length < 6) {
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    field.classList.remove('is-invalid');
+                    if (errorDiv) errorDiv.classList.add('d-none');
+                } else {
+                    field.classList.add('is-invalid');
+                    if (errorDiv) errorDiv.classList.remove('d-none');
+                }
+
+                return isValid;
+            }
+
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            // Shake animation keyframe
+            const shakeKeyframes = `
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    25% { transform: translateX(-5px); }
+                    75% { transform: translateX(5px); }
+                }
+            `;
+            const styleSheet = document.createElement('style');
+            styleSheet.textContent = shakeKeyframes;
+            document.head.appendChild(styleSheet);
+        });
+
+        // Button ripple effects
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                let ripple = document.createElement('div');
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.3);
+                    pointer-events: none;
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    left: ${e.clientX - e.target.offsetLeft}px;
+                    top: ${e.clientY - e.target.offsetTop}px;
+                    width: 20px;
+                    height: 20px;
+                `;
+                
+                this.style.position = 'relative';
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+
+        // Ripple animation
+        const rippleKeyframes = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = rippleKeyframes;
+        document.head.appendChild(rippleStyle);
+    </script>
+</body>
+</html>

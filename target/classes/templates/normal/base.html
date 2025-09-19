@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(content)">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        crossorigin="anonymous">
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        crossorigin="anonymous" />
+
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+  <title th:text="${title}">Smart Contact Manager</title>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: linear-gradient(90deg, #4e54c8, #8f94fb);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 56px; /* below navbar */
+      left: 0;
+      height: 100%;
+      width: 240px;
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding-top: 20px;
+      transition: all 0.3s ease;
+      overflow-y: auto;
+      z-index: 999;
+    }
+    .sidebar .item {
+      display: block;
+      padding: 12px 20px;
+      color: #bdc3c7;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .sidebar .item i {
+      margin-right: 10px;
+    }
+    .sidebar .item:hover {
+      background: #34495e;
+      color: #fff;
+      text-decoration: none;
+    }
+    .sidebar .divider {
+      border-top: 1px solid #7f8c8d;
+      margin: 15px 0;
+    }
+
+    /* Sidebar toggle */
+    .crossBtn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #fff;
+    }
+    .fa-bars {
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #4e54c8;
+    }
+
+    /* Content area */
+    .content {
+      margin-left: 240px;
+      padding: 2rem;
+      transition: margin-left 0.3s ease;
+    }
+    .content.collapsed {
+      margin-left: 0;
+    }
+
+    /* Alert box */
+    .alert {
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#">Smart Contact Manager</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-uppercase">
+        <li class="nav-item active">
+          <a th:href="@{/}" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"><span th:text="${user.name}"></span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/logout}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- End Navbar -->
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <span onclick="toggleSidebar()" class="crossBtn">&times;</span>
+    <a th:href="@{/user/index}" class="item"><i class="fas fa-home"></i> Home</a>
+    <a th:href="@{/user/show-contacts/0}" class="item"><i class="fas fa-id-card-alt"></i> View Contacts</a>
+    <a th:href="@{/user/add-contact}" class="item"><i class="fas fa-user-plus"></i> Add Contact</a>
+    <a th:href="@{/user/profile}" class="item"><i class="fas fa-user-circle"></i> Your Profile</a>
+    <a href="#" class="item" data-toggle="modal" data-target="#settingsModal"><i class="fas fa-cogs"></i> Settings</a>
+    <a th:href="@{/logout}" class="item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <div class="divider"></div>
+  </div>
+  <!-- End Sidebar -->
+
+  <!-- Content -->
+  <div class="content" id="content">
+    <i onclick="toggleSidebar()" class="fas fa-bars m-3"></i>
+
+    <!-- Message box -->
+    <div th:if="${session.message}" class="container">
+      <div th:classappend="${'alert-'+session.message.type}" class="alert text-center" role="alert">
+        <span th:text="${session.message.content}"></span>
+      </div>
+      <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+    </div>
+
+    <div th:replace="${content}"></div>
+  </div>
+  <!-- End Content -->
+
+  <!-- Settings Coming Soon Modal -->
+  <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title" id="settingsModalLabel">Coming Soon</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          🚧 This feature is under development and will be available soon.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Settings Modal -->
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <script th:src="@{/js/script.js}"></script>
+
+  <script>
+    function toggleSidebar() {
+      document.querySelector(".sidebar").classList.toggle("d-none");
+      document.querySelector("#content").classList.toggle("collapsed");
+    }
+  </script>
+</body>
+</html>

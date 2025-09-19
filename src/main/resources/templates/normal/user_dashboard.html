@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="normal/base::layout(~{::section})">
+<head>
+  <meta charset="UTF-8" />
+  <title>User Dashboard</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+    }
+    .dashboard-header {
+      margin-top: 100px; /* navbar ke niche space */
+      display: flex;
+      justify-content: center;
+    }
+    .dashboard-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 600px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+    }
+    .dashboard-card h2 {
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #ffeb3b;
+    }
+    .dashboard-card p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 0.8rem;
+    }
+    .highlight {
+      color: #ff9800;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <div class="container dashboard-header">
+      <div class="dashboard-card">
+        <h2>Welcome, <span th:text="${user.name}">User</span> 👋</h2>
+        <p>This is your <span class="highlight">private dashboard</span>, designed just for you.</p>
+        <p>Here you can <span class="highlight">manage contacts</span>, keep track of updates, and edit your profile anytime.</p>
+        <p>Stay connected and organized with your <span class="highlight">Smart Contact Manager</span>.</p>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="normal/base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>Add Contact</title>
+<style>
+  body {
+    background: #f5f7fa;
+  }
+  .card {
+    margin-top: 80px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    padding: 2rem;
+    animation: fadeIn 1s ease-in-out;
+  }
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .form-control, .custom-file input {
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+  .form-control:focus {
+    border-color: #4e54c8;
+    box-shadow: 0 0 8px rgba(78, 84, 200, 0.3);
+  }
+  .input-group-text {
+    background: #4e54c8;
+    color: #fff;
+    border-radius: 10px 0 0 10px;
+  }
+  button.btn {
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+  button.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(78, 84, 200, 0.3);
+  }
+  textarea {
+    border-radius: 10px;
+    padding: 10px;
+    resize: vertical;
+  }
+</style>
+</head>
+<body>
+<section>
+  <div class="card mx-auto" style="max-width: 700px;">
+    <div class="card-body">
+      <h1 class="text-center mb-4">Add Contact</h1>
+      <form action="#" 
+            th:object="${contact}"
+            enctype="multipart/form-data"
+            method="POST"
+            th:action="@{/user/process-contact}">
+        
+        <!-- Name -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <i class="fa fa-user"></i>
+            </div>
+          </div>
+          <input required type="text" name="name" placeholder="Enter Name" class="form-control" />
+        </div>
+
+        <!-- Nick Name -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <i class="fas fa-user-alt"></i>
+            </div>
+          </div>
+          <input required type="text" name="secondName" placeholder="Enter Nick Name" class="form-control" />
+        </div>
+
+        <!-- Phone -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <i class="fa fa-phone"></i>
+            </div>
+          </div>
+          <input required type="number" name="phone" placeholder="Enter Phone Number" class="form-control" />
+        </div>
+
+        <!-- Email -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">@</div>
+          </div>
+          <input required type="email" name="email" placeholder="Enter Email" class="form-control" />
+        </div>
+
+        <!-- Work -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <i class="fa fa-briefcase"></i>
+            </div>
+          </div>
+          <input required type="text" name="work" placeholder="Enter Work" class="form-control" />
+        </div>
+
+        <!-- Description -->
+        <div class="form-group mb-3">
+          <textarea placeholder="Enter contact description" name="description" class="form-control" rows="5"></textarea>
+        </div>
+
+        <!-- Image -->
+        <div class="form-group mb-3">
+          <input type="file" name="profileImage" class="form-control-file" />
+        </div>
+
+        <!-- Submit -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-outline-primary btn-lg">Save Contact</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</body>
+</html>
